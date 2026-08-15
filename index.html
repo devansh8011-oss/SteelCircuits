@@ -1748,48 +1748,48 @@
     const PROJECTS = [
       {
         id: "nexus-delivery-bot",
-        title: "NEXUS Delivery Bot",
-        desc: "Autonomous delivery robot with LiDAR obstacle sensing and anti-theft ultrasonic guard.",
+        title: "NEXUS Delivery Robot — Prototype 1",
+        desc: "Smart delivery robot with a custom control UI, LiDAR obstacle detection, and ultrasonic anti-theft.",
         youtubeId: "kHH7z3wC6GI",
-        overview: "NEXUS is a fully autonomous delivery robot designed to carry payloads across campus or indoor spaces while dodging obstacles and protecting cargo from theft — all powered by a single ESP32.",
-        working: "The ESP32 acts as the central brain. A VL53L0X time-of-flight LiDAR sensor continuously scans ahead and feeds distance data to the microcontroller, which runs an obstacle-avoidance algorithm to steer around objects in real time. Two BTS7960 dual H-bridge motor drivers handle the high-current drive motors, giving precise PWM speed and direction control for smooth navigation. When the bot reaches its delivery point and parks, an ultrasonic sensor activates as an anti-theft system — it monitors the cargo bay and triggers an alarm if anyone tries to grab the package. The entire system runs on a rechargeable Li-ion pack with voltage regulation to keep the ESP32 and sensors stable.",
-        components: ["ESP32", "VL53L0X LiDAR", "BTS7960 Motor Driver", "Ultrasonic Sensor", "Li-ion Battery Pack", "PWM Motor Control"]
+        overview: "NEXUS Delivery Robot Prototype 1 is a smart delivery robot controlled through a custom-designed user interface. The user simply enters the distance the robot needs to travel and presses Execute, after which the robot automatically moves according to the given instructions. It also includes object detection and an anti-theft system for protecting delivered packages.",
+        working: "The ESP32 acts as the main microcontroller and controls the robot's movement. A VL53L0X time-of-flight LiDAR sensor detects objects and obstacles in front of the robot, while 300 RPM Johnson motors with 125 mm wheels handle movement. An ultrasonic sensor works as an anti-theft system — it monitors the delivery area and can trigger an alert if someone attempts to take the package. The complete system is powered by an 11.1 V LiPo battery, with regulated power supplied to the electronics.",
+        components: ["ESP32", "VL53L0X LiDAR", "Ultrasonic Sensor", "BTS7960 Motor Driver", "300 RPM Johnson Motors", "125 mm Wheels", "11.1 V LiPo Battery", "Custom Control UI"]
       },
       {
         id: "robo-race-bot",
-        title: "Robo Race Bot",
-        desc: "High-torque 4WD racing bot built for competition speed runs with FlySky RC control.",
+        title: "RoboRace Bot",
+        desc: "High-speed manually controlled race bot built for the Teknoxian robotics competition.",
         youtubeId: "bl2gWOpC4_4",
-        overview: "A raw-power 4WD racing robot built for competition tracks — dual BTS7960 drivers delivering massive current to four high-torque DC motors, all controlled through a FlySky transmitter with sub-10ms latency.",
-        working: "The FlySky FS-i6 transmitter sends stick inputs over a 2.4GHz AFHDS link to the FS-iA6B receiver mounted on the chassis. The receiver outputs PWM signals that the microcontroller reads to determine throttle and steering values. Those values are mapped to two BTS7960 dual H-bridge drivers — each driver handles one side of the 4WD drivetrain (left pair / right pair), enabling tank-style differential steering. The BTS7960 can push up to 43A continuous, which is why this bot accelerates hard enough to drift on turns. The chassis is a custom 4WD platform with high-torque DC gear motors mounted at each corner for maximum traction and stability at speed.",
-        components: ["4WD Chassis", "BTS7960 x2", "FlySky FS-i6 Transmitter", "FS-iA6B Receiver", "High-torque DC Gear Motors", "2.4GHz AFHDS Link"]
-      },
-      {
-        id: "eye-controlled-car",
-        title: "Eye Controlled Car",
-        desc: "Steer a car with your eyes — gaze tracking via MediaPipe streamed to ESP32 over WiFi.",
-        youtubeId: "LPo3su2wmzA",
-        overview: "No joystick, no remote — just your eyes. A webcam watches your face, MediaPipe tracks where you're looking, and the car follows your gaze in real time over a WiFi link to an ESP32.",
-        working: "On the PC side, a Python script captures the webcam feed and runs it through Google MediaPipe's face-mesh model, which maps 468 facial landmarks in real time. The script isolates the iris landmarks to calculate gaze direction — left, right, center, up, down — and converts that into motor commands (forward, reverse, turn left, turn right, stop). These commands are sent as UDP packets over WiFi to the ESP32 on the car. The ESP32 parses incoming packets and drives an L298N dual H-bridge motor driver accordingly, translating gaze direction into wheel motion with minimal lag. Blink detection is also implemented — a deliberate long blink triggers an emergency stop. The whole pipeline runs at roughly 30 FPS, keeping the car responsive to even subtle eye movements.",
-        components: ["ESP32", "Python", "Google MediaPipe", "OpenCV", "L298N Motor Driver", "WiFi UDP", "Webcam"]
+        overview: "The RoboRace Bot is a high-speed manually controlled robot built for the Teknoxian robotics competition. It was designed to handle a challenging race course while maintaining good speed, stability, and control.",
+        working: "An Arduino Uno acts as the main controller. Two BTS7960 motor drivers independently control the robot's motors, while four 300 RPM Johnson motors provide the required speed and torque. The robot uses a FlySky FS-CT6B transmitter and receiver system for wireless manual control. Its 125 mm wheels provide good ground clearance and help the robot handle obstacles, while the metal chassis provides strength and durability during the race.",
+        components: ["Arduino Uno", "2x BTS7960 Motor Drivers", "FlySky FS-CT6B", "Metal Chassis", "4x 300 RPM Johnson Motors", "125 mm Wheels"]
       },
       {
         id: "rfid-attendance",
         title: "RFID Attendance System",
-        desc: "Tap your card, attendance logged — RC522 reader pushing data to Google Sheets in real time.",
+        desc: "Contactless attendance — tap an RFID card and get marked present, with LED confirmation.",
         youtubeId: "uIu3_PnATQU",
-        overview: "A complete tap-to-mark attendance system: students hold their RFID card near the reader, the buzzer confirms, and within seconds the entry appears in a live Google Sheet — timestamped, named, and deduplicated.",
-        working: "An RC522 RFID module connected to an Arduino via SPI reads the unique UID from each student's MIFARE card when they tap. The Arduino matches the UID against a stored roster to identify the student, then triggers a buzzer beep and LED flash to confirm the scan. The attendance record (student name, UID, timestamp) is sent over serial to a connected device that pushes it via an HTTP POST request to a Google Apps Script web app endpoint. The Apps Script receives the data, opens the designated Google Sheet, checks for duplicate entries on the same day, and appends a new row with the student name, card ID, date, and exact time. Teachers get a live, auto-updating spreadsheet they can filter by date or student — no manual entry required.",
-        components: ["Arduino", "RC522 RFID Module", "MIFARE Cards", "Google Sheets", "Google Apps Script", "Buzzer", "LED Indicator", "SPI Interface"]
+        overview: "The RFID Attendance System is a simple contactless system designed to automatically mark a person's attendance using an RFID card.",
+        working: "An Arduino Uno communicates with the RFID module to detect an RFID card. When a card is tapped, the system recognizes the card and marks the person as present, and an LED provides a visual indication that the card has been detected successfully. The circuit is built on a breadboard and operates using a regulated 5 V power supply, making it a simple and efficient solution for contactless attendance.",
+        components: ["Arduino Uno", "RFID Module", "RFID Card", "LED", "Breadboard", "5 V Power Supply"]
       },
       {
         id: "maze-rescue-robot",
-        title: "Maze Rescue Robot",
-        desc: "Competition maze-solver — Pi camera vision + Arduino Mega motor control + ESP32 bridge.",
+        title: "Autonomous Maze Solver",
+        desc: "Competition robot that autonomously navigates and explores a maze, reacting to tile colors.",
         youtubeId: "1ZXrR4PRBOg",
-        overview: "A team-built competition robot that navigates unknown mazes autonomously, detects victims, and maps the environment — combining Raspberry Pi vision, Arduino Mega sensor-motor control, and ESP32 wireless communication.",
-        working: "The robot uses a three-brain architecture. The Raspberry Pi runs the camera pipeline — capturing frames, processing them with OpenCV for wall detection, path identification, and victim recognition (colored markers or heat signatures). It builds an internal map of explored corridors and decides which direction to explore next using a modified flood-fill algorithm. The Pi sends high-level movement commands (go forward, turn 90° left, etc.) to the Arduino Mega over serial. The Arduino Mega handles all real-time hardware: it reads an array of IR proximity sensors and ultrasonic distance sensors to measure exact wall distances, runs PID loops to keep the robot centered in the corridor, and drives the motors through H-bridge drivers with smooth acceleration curves. An ESP32 acts as the communication bridge — it maintains a WiFi connection for live telemetry back to a base station, streaming the map, sensor readings, and camera feed so the team can monitor the run.",
-        components: ["Raspberry Pi", "Arduino Mega", "ESP32", "Pi Camera", "OpenCV", "IR Proximity Sensors", "Ultrasonic Sensors", "H-Bridge Motor Drivers", "PID Control"]
+        overview: "The Autonomous Maze Solver is a competition-focused robot designed to independently navigate and explore a maze. Its main objective is to solve the complete maze while exploring as much of the available path as possible.",
+        working: "The robot uses sensors to detect the tiles and surroundings while navigating through the maze. When it encounters a black tile, it completely avoids the tile and activates a buzzer as an alert. When it detects a blue tile, it activates a blue LED to indicate the detection. The robot makes navigation decisions autonomously using its programmed logic, allowing it to explore the maze without manual control.",
+        components: ["Microcontroller", "Maze Detection Sensors", "Motors", "Motor Driver", "Buzzer", "Blue LED", "Robot Chassis"]
+      },
+      {
+        id: "eye-controlled-car",
+        title: "Eye-Controlled Car",
+        desc: "Computer-vision car controlled by the driver's eye state using OpenCV + MediaPipe.",
+        youtubeId: "LPo3su2wmzA",
+        overview: "The Eye-Controlled Car is an innovation project that uses computer vision to control a robotic vehicle based on the driver's eye state. It demonstrates how OpenCV, MediaPipe, and robotics can work together to create an intelligent control system.",
+        working: "A laptop uses a camera along with OpenCV and MediaPipe to detect the driver's eyes. When the eyes are detected as open, the laptop wirelessly sends a command to the ESP32, causing the car to move forward. When the eyes are detected as closed, the ESP32 immediately stops the motors and activates a buzzer as an alert. The system continuously monitors the driver's eyes and repeats this process in real time.",
+        components: ["ESP32", "2x BO Motors", "L298N Motor Driver", "Laptop", "Camera", "OpenCV", "MediaPipe", "Buzzer"]
       }
     ];
 
