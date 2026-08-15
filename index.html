@@ -1633,6 +1633,7 @@
           <div class="skill"><img class="skill-logo" src="https://cdn.simpleicons.org/cplusplus/00f5ff" alt="" width="16" height="16" loading="lazy"><span>C / C++</span></div>
           <div class="skill"><img class="skill-logo" src="https://cdn.simpleicons.org/opencv/00f5ff" alt="" width="16" height="16" loading="lazy"><span>OpenCV</span></div>
           <div class="skill"><img class="skill-logo" src="https://cdn.simpleicons.org/espressif/00f5ff" alt="" width="16" height="16" loading="lazy"><span>ESP32</span></div>
+          <div class="skill"><img class="skill-logo" src="https://cdn.simpleicons.org/n8n/00f5ff" alt="" width="16" height="16" loading="lazy"><span>n8n</span></div>
           <div class="skill"><span class="skill-icon">&#129302;</span><span>Robotics</span></div>
           <div class="skill"><span class="skill-icon">&#128225;</span><span>Sensor Fusion</span></div>
           <div class="skill"><span class="skill-icon">&#129504;</span><span>Machine Learning</span></div>
@@ -1726,6 +1727,12 @@
       // Leave empty ("") to use the built-in offline answers instead.
       GROQ_API_KEY: "",
       GROQ_MODEL: "llama-3.3-70b-versatile",
+
+      // Hugging Face Space (Flask) backend for the AI Twin chat.
+      // The Groq API key + system prompt live INSIDE the Space (server-side),
+      // so nothing secret is ever exposed here. The browser only POSTs
+      // { message } and receives { reply }. Leave "" to use offline answers.
+      SPACE_ENDPOINT: "https://devansh8011-ai-chatbot.hf.space/chat",
 
       // WhatsApp number in international format, digits only.
       // TODO: replace with your real number, e.g. "9198XXXXXXXX"
@@ -1936,6 +1943,17 @@
         "🤖 Good question! I know most about Devansh's builds — try asking about NEXUS, the Eye Controlled Car, the maze robot, or his tech stack.";
     }
 
+    async function spaceReply(message) {
+      const res = await fetch(CONFIG.SPACE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message })
+      });
+      if (!res.ok) throw new Error("Space API error " + res.status);
+      const data = await res.json();
+      return (data.reply || "").trim() || "…";
+    }
+
     async function groqReply(history) {
       const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
@@ -1997,7 +2015,9 @@
         const typing = showTyping();
         try {
           let reply;
-          if (CONFIG.GROQ_API_KEY) {
+          if (CONFIG.SPACE_ENDPOINT) {
+            reply = await spaceReply(clean);
+          } else if (CONFIG.GROQ_API_KEY) {
             reply = await groqReply(history.slice(-10));
           } else {
             await new Promise((r) => setTimeout(r, 500 + Math.random() * 600)); // small "thinking" pause
