@@ -81,8 +81,8 @@ export default function AITwinWidget({ isOpen, setIsOpen, centered = false, setC
   };
 
   const cornerStyle = {
-    position: 'fixed', bottom: '100px', right: '24px', zIndex: 1000,
-    width: 'min(calc(100vw - 32px), 400px)', height: 'min(76vh, 580px)',
+    position: 'fixed', bottom: '88px', right: '24px', zIndex: 1000,
+    width: 'min(calc(100vw - 32px), 340px)', height: 'min(70vh, 500px)',
     ...panelBox,
   };
 
@@ -178,15 +178,15 @@ export default function AITwinWidget({ isOpen, setIsOpen, centered = false, setC
         aria-label={isOpen ? 'Close AI Twin Chat' : 'Open AI Twin Chat'}
         style={{
           position: 'fixed', bottom: '24px', right: '24px', zIndex: 1001,
-          width: '60px', height: '60px', borderRadius: '50%', background: '#0d1b2a',
+          width: '48px', height: '48px', borderRadius: '50%', background: '#0d1b2a',
           border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center',
-          justifyContent: 'center', boxShadow: '0 12px 28px rgba(2, 6, 23, 0.35)',
+          justifyContent: 'center', boxShadow: '0 10px 24px rgba(2, 6, 23, 0.35)',
           transition: 'transform 0.2s ease',
         }}
         onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.08)')}
         onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
       >
-        {isOpen ? <X size={26} color="#38bdf8" /> : <Bot size={28} color="#38bdf8" />}
+        {isOpen ? <X size={22} color="#38bdf8" /> : <Bot size={24} color="#38bdf8" />}
       </button>
 
       {/* Chat panel: centered dialogue (nav/hero) OR bottom-right corner popup (floating button) */}
