@@ -160,7 +160,7 @@ export default function ProjectsSection() {
               <div style={{ fontFamily: 'Orbitron, monospace', fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: '#0f172a', marginBottom: '0.75rem' }}>
                 KEY COMPONENTS
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '0.6rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 230px), 1fr))', gap: '0.6rem' }}>
                 {selectedProject.components.map((c, idx) => (
                   <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '0.6rem', padding: '0.6rem 0.8rem' }}>
                     <CheckCircle2 size={16} color="#0ea5e9" style={{ flexShrink: 0 }} />
