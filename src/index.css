@@ -246,7 +246,7 @@ body {
 
 .hero-title {
   font-family: 'Inter', sans-serif;
-  font-size: clamp(1.9rem, 3.6vw, 2.9rem);
+  font-size: clamp(2.5rem, 5vw, 3.8rem);
   font-weight: 800;
   line-height: 1.12;
   color: #0f172a;
