@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import AboutSection from './components/AboutSection';
@@ -22,6 +22,31 @@ export default function App() {
   };
 
   const openContact = () => setIsContactOpen(true);
+
+  // Scroll-reveal: fade/slide blocks in as they enter the viewport and out as
+  // they leave. Classes are added by JS so the site stays fully visible if JS
+  // is disabled (progressive enhancement).
+  useEffect(() => {
+    const selector =
+      '.light-card, .section-tag, .section-heading, .hero-badge, .hero-title, .hero-sub, .hero-cta-group, .cta-banner, .projects-header-row';
+    const els = Array.from(document.querySelectorAll(selector));
+    if (!('IntersectionObserver' in window) || els.length === 0) return;
+
+    els.forEach((el) => el.classList.add('reveal'));
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add('reveal-in');
+          else entry.target.classList.remove('reveal-in');
+        });
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+    );
+
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 relative">

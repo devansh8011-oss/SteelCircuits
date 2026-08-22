@@ -1,6 +1,48 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 import { Cpu, Zap } from 'lucide-react';
+
+// Counts up from 0 to the numeric part of `value` (e.g. "20+") the first time
+// it scrolls into view, then keeps the suffix (e.g. "+").
+function CountUp({ value }) {
+  const match = String(value).match(/^(\d+)(.*)$/);
+  const target = match ? parseInt(match[1], 10) : 0;
+  const suffix = match ? match[2] : '';
+  const [display, setDisplay] = useState(0);
+  const ref = useRef(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !('IntersectionObserver' in window)) {
+      setDisplay(target);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !started.current) {
+            started.current = true;
+            const duration = 1200;
+            const start = performance.now();
+            const tick = (now) => {
+              const p = Math.min((now - start) / duration, 1);
+              const eased = 1 - Math.pow(1 - p, 3);
+              setDisplay(Math.round(eased * target));
+              if (p < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [target]);
+
+  return <span ref={ref}>{display}{suffix}</span>;
+}
 
 export default function AboutSection() {
   const { personal, stats, aboutTags } = PORTFOLIO_DATA;
@@ -37,7 +79,7 @@ export default function AboutSection() {
             <div className="stats-grid">
               {stats.map((stat, idx) => (
                 <div key={idx}>
-                  <div className="stat-value">{stat.value}</div>
+                  <div className="stat-value"><CountUp value={stat.value} /></div>
                   <div className="stat-label">{stat.label}</div>
                 </div>
               ))}

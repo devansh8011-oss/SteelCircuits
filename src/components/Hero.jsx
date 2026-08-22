@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
-import { Bot, ArrowUpRight, Move, Sparkles } from 'lucide-react';
+import { Bot, ArrowUpRight, Move, Sparkles, Loader2 } from 'lucide-react';
 
 export default function Hero({ onOpenAITwin }) {
   const [disciplineIndex, setDisciplineIndex] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
+  const [robotLoaded, setRobotLoaded] = useState(false);
 
   const disciplines = PORTFOLIO_DATA.rotatingDisciplines;
 
@@ -33,7 +34,7 @@ export default function Hero({ onOpenAITwin }) {
 
   return (
     <section id="home" className="hero-container">
-      
+
       {/* Left Column: Headline & Controls */}
       <div>
         <div className="hero-badge">
@@ -49,7 +50,6 @@ export default function Hero({ onOpenAITwin }) {
           <span className="cursor-blink"></span>
         </h1>
 
-        {/* Updated Subtitle: Removed "and decentralized Web3 systems" */}
         <p className="hero-sub">
           Building autonomous robotics and intelligent IoT hardware.
         </p>
@@ -83,10 +83,19 @@ export default function Hero({ onOpenAITwin }) {
           </div>
 
           <div className="robot-frame">
+            {/* Loading state shown until the Spline scene finishes streaming */}
+            {!robotLoaded && (
+              <div className="robot-loading">
+                <Loader2 size={30} color="#0ea5e9" className="spin" />
+                <span>LOADING 3D MODEL…</span>
+              </div>
+            )}
             <iframe
               src="https://my.spline.design/nexbotrobotcharacterconcept-z1ImevieWLidB4QDWTRDxLSr/"
               title="Interactive 3D Robot"
               loading="lazy"
+              onLoad={() => setRobotLoaded(true)}
+              style={{ opacity: robotLoaded ? 1 : 0, transition: 'opacity 0.5s ease' }}
             ></iframe>
           </div>
 
