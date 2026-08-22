@@ -82,7 +82,7 @@ export default function AITwinWidget({ isOpen, setIsOpen, centered = false, setC
 
   const cornerStyle = {
     position: 'fixed', bottom: '88px', right: '24px', zIndex: 1000,
-    width: 'min(calc(100vw - 32px), 340px)', height: 'min(70vh, 500px)',
+    width: 'min(calc(100vw - 32px), 380px)', height: 'min(74vh, 560px)',
     ...panelBox,
   };
 
