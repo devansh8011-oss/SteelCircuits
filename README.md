@@ -1,18 +1,21 @@
-<!-- <p align="center">
-  <img src="./src/assets/signature.svg" width="300" alt="Gargi Bhardwaj Signature" />
-</p> -->
+<p align="center">
+  <img src="./src/assets/signature.svg" width="280" alt="Devansh Grover Signature" />
+</p>
 
 <h1 align="center">
-  <code><b>D O S S I E R</b></code>
+  <code><b>S T E E L C I R C U I T S</b></code>
 </h1>
 
 <p align="center">
-  <b>An Immersive Design Engineering Portfolio</b>
+  <b>Devansh Grover — Interactive Engineering, Robotics & AI Systems Portfolio</b>
 </p>
 
 <p align="center">
-  <a href="https://github.com/gargibhardwaj24/dossier">
-    <img src="https://img.shields.io/github/stars/gargibhardwaj24/dossier?style=for-the-badge&color=8A2BE2&logo=github" alt="Stars" />
+  <a href="https://github.com/devansh8011-oss/SteelCircuits">
+    <img src="https://img.shields.io/github/stars/devansh8011-oss/SteelCircuits?style=for-the-badge&color=8A2BE2&logo=github" alt="Stars" />
+  </a>
+  <a href="https://steelandstack.com">
+    <img src="https://img.shields.io/badge/Steel_%26_Stack-Founder-%23161012?style=for-the-badge" alt="Steel & Stack" />
   </a>
   <a href="https://react.dev/">
     <img src="https://img.shields.io/badge/React_19-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="React 19" />
@@ -29,161 +32,154 @@
 </p>
 
 <p align="center">
-  A premium, interactive playground fusing visual storytelling, fluid mechanics, and mathematical layout animations. Designed to feel physical, organic, and alive.
+  My personal portfolio built at the intersection of robotics, embedded hardware, AI systems, and tactile web engineering. Designed with scroll-driven physics, mechanical split-flap typography, and fluid motion across desktop and mobile.
 </p>
 
 ---
 
-## 🔮 The Core Experience
+## The Core Experience
 
-This dossier is engineered as a tactile journey. Every scroll and cursor interaction triggers a real-time physical reaction, turning standard UI elements into responsive interactive media:
+I engineered this site as a physical, scroll-reactive showcase rather than a static resume:
 
-*   🌊 **Fluid Scroll Inertia:** Intercepts native scroll velocity using [Lenis](https://github.com/darkroomengineering/lenis) for smooth, consistent scroll triggers.
-*   📐 **Geometric Morphing:** Draws responsive vectors dynamically synced with ScrollTrigger markers.
-*   🎭 **Organic Masking:** Distorts layout pixels using SVG turbulence and displacement matrix calculations.
-*   ⚡ **Variable Font Proximity:** Bends typography weight and width based on mouse cursor distance.
+*   **Fluid Scroll Inertia:** Intercepts native scroll velocity with [Lenis](https://github.com/darkroomengineering/lenis) synced cleanly to GSAP ScrollTrigger timelines.
+*   **Custom Signature Preloader:** Traces my hand-drawn vector signature (`signature.svg`) on load before revealing the stage.
+*   **Dynamic SVG Scroll Curve:** Generates a responsive Bezier vector path measured live from the Hero headline's **"I"** down into the Roles section without text collisions on desktop or mobile.
+*   **Mechanical Split-Flap Typography:** Renders the **FEATURED WORKS** section header using an interactive, viewport-triggered 14-tile split-flap departure board (`SplitFlapText.jsx`).
+*   **Proximity Variable Fonts & 3D Depth:** Combines Three.js scene primitives, Roboto Flex variable font axis interpolation, and circular mask transitions for the Contact reveal.
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+## Tech Stack & Architecture
 
 | Layer | Technology | Usage |
 | :--- | :--- | :--- |
-| **Framework** | **React 19** | Stateful component logic & unified renderer |
-| **Build Engine** | **Vite 8** | Sub-millisecond HMR & optimized production assets |
-| **Styling** | **Tailwind CSS v4** | Next-gen post-CSS utility layer with custom theme tokens |
-| **Animations** | **GSAP 3 + ScrollTrigger** | Scroll-scrubbed timelines & custom easing controls |
-| **Scroller** | **Lenis** | Smooth inertia rendering & custom scroll interpolation |
-| **Morphing** | **Flubber** | SVG path morphing calculations |
+| **Framework** | **React 19** | Modular section architecture & stateful interactive controls |
+| **Build Engine** | **Vite 8** | Fast HMR development server & bundled production build |
+| **Styling** | **Tailwind CSS v4 + Custom CSS** | Design tokens, responsive clamp sizing, and mobile-first rules |
+| **Animations** | **GSAP 3 + ScrollTrigger** | Scrubbed scroll blur, circular contact reveal, and curve drawing |
+| **Scroller** | **Lenis** | Smooth scroll inertia & frame synchronization |
+| **3D / Morphing** | **Three.js + Flubber** | WebGL geometry & SVG path interpolation utilities |
 
 ---
 
-## 🧪 Interactive Mechanics & Math Details
+## Interactive Engineering Details
 
 <details>
-<summary><b>🎬 1. Spotlight Mask Reveal (click to expand)</b></summary>
+<summary><b>1. Scroll-Synced SVG Gutter Curve (click to expand)</b></summary>
 
-### The Mechanics
-Hovering over the primary portrait morphs and reveals a hidden underlying layer (casual black jacket reveals a formal suit).
-*   **The SVG Distortion Map:** An SVG `<feTurbulence>` filter is paired with a `<feDisplacementMap>` to create an organic "amoeba" shape.
-*   **Pointer Tracking:** The center coordinates of the mask circle (`--mx`, `--my`) are continuously updated in CSS variables via cursor movements.
-
-```xml
-<filter id="amoebaDistort" x="-60%" y="-60%" width="220%" height="220%">
-  <feTurbulence type="turbulence" baseFrequency="0.013" numOctaves="2" seed="4" result="noise">
-    <animate attributeName="baseFrequency" dur="12s" values="0.009;0.018;0.012;0.009" repeatCount="indefinite" />
-  </feTurbulence>
-  <feDisplacementMap in="SourceGraphic" in2="noise" scale="60" xChannelSelector="R" yChannelSelector="G" />
-</filter>
-```
+As the visitor scrolls through the Hero and Roles sections, an SVG curve draws downward from the right side of **"I"** in `NOT JUST WEBSITES — I BUILD`.
+*   **Live DOM Measurement:** Reads bounding rectangles of `.hero-headline` and `.roles-list` dynamically across viewport resizes so the path routes cleanly along the margin on both wide monitors and narrow mobile screens.
+*   **Scroll-Scrub Timeline:** GSAP's `ScrollTrigger` animates `strokeDashoffset` in lockstep with scroll progress while `requestAnimationFrame` tracks blur-driven element offsets.
 </details>
 
 <details>
-<summary><b>📈 2. Dynamic SVG Scroll Curve (click to expand)</b></summary>
+<summary><b>2. In-View Split-Flap Board (`SplitFlapText`) (click to expand)</b></summary>
 
-### The Mechanics
-As the user scrolls, a curve grows dynamically out of the stem of the standalone letter **"I"** in the Hero headline and winds down into the roles list.
-*   **Font Measurement:** Utilizes a canvas context helper to measure the exact rendered width of the "I" glyph.
-*   **Scroll-Scrub Timeline:** GSAP's `ScrollTrigger` drives a `strokeDashoffset` from `1` to `0` along a cubic Bezier segment.
-*   **Stability Math:** Employs high-frequency `requestAnimationFrame` ticks to adjust the path's starting coordinate offset as the parent elements translate upwards under progressive scroll-blur transforms.
+The **FEATURED WORKS** section heading uses a 14-tile mechanical split-flap display (`SplitFlapText.jsx` + `SplitFlapText.css`).
+*   **Viewport Trigger:** Uses an `IntersectionObserver` gate (`threshold: 0.2`) so the board holds blank offscreen and cascades cleanly into `FEATURED WORKS` as you scroll into `#projects`.
+*   **Responsive Sizing:** Uses fluid `clamp()` font sizing and tile gaps to keep all 14 tiles centered on a single row across desktop and mobile without horizontal overflow.
 </details>
 
 <details>
-<summary><b>✏️ 3. Proximity-Based Variable Typography (click to expand)</b></summary>
+<summary><b>3. Proximity-Driven Variable Typography (click to expand)</b></summary>
 
-### The Mechanics
-Headings morph their character weights and widths depending on cursor proximity.
-*   **Variable Axes:** Animates the `wght` and `wdth` axes of the **Roboto Flex** variable font.
-*   **Proximity Calculations:** Calculates the distance between the mouse $(x_m, y_m)$ and each individual character span center $(x_c, y_c)$:
+Selected headings morph Roboto Flex `wght` and `wdth` axes in real time based on cursor distance $(x_m, y_m)$ to each character glyph center $(x_c, y_c)$:
 
 $$d = \sqrt{(x_m - x_c)^2 + (y_m - y_c)^2}$$
 
-*   **Axis Interpolation:**
-    
 $$\text{Weight} = \text{BoldWght} + (\text{ThinWght} - \text{BoldWght}) \times \max\left(0, 1 - \frac{d}{\text{Radius}}\right)$$
 </details>
 
 ---
 
-## 📦 Project Anatomy
+## Project Structure
 
-```markdown
-portfolio_final/
+```text
+SteelCircuits/
 ├── src/
-│   ├── assets/             # Video loops, SVG vectors & graphics
-│   ├── App.jsx             # Main container & Lenis initializations
-│   ├── IntroLoader.jsx     # Signature draw-in preloader component
-│   ├── HeroReveal.jsx      # Fluid mask layout following the pointer
-│   ├── ScrollCurve.jsx     # High-fidelity SVG path generator
-│   ├── Roles.jsx           # Hover list supporting custom video cursors
-│   ├── FeaturedWorks.jsx   # Project grids and modal showcase
-│   ├── Contact.jsx         # Circular reveal email/social section
-│   ├── Footer.jsx          # Dynamic viewport-scaling wordmark
-│   └── index.css           # Custom theme variables & core post-CSS layers
+│   ├── assets/                   # Portrait media, signature SVG, project visuals & video loops
+│   ├── App.jsx                   # Root layout & Lenis smooth scroll setup
+│   ├── IntroLoader.jsx           # Animated signature draw-in preloader
+│   ├── HeroReveal.jsx            # Scroll-faded primary portrait stage
+│   ├── Hero.jsx                  # Hero typography, rotating discipline words & navigation drawer
+│   ├── DiveIntro.jsx             # Transition dive statement before headline showcase
+│   ├── ScrollCurve.jsx           # Responsive GSAP-scrubbed gutter curve SVG
+│   ├── Roles.jsx                 # Roles showcase including Founder @ Steel & Stack
+│   ├── SteelAndStackSection.jsx  # Steel & Stack highlight band
+│   ├── SplitFlapText.jsx         # Mechanical split-flap heading board
+│   ├── FeaturedWorks.jsx         # Project showcase cards, repo links & video preview modal
+│   ├── Contact.jsx               # Scroll-pinned circular reveal & social links
+│   ├── Footer.jsx                # Viewport-fitting footer wordmark
+│   ├── VariableFontText.jsx      # Cursor-proximity variable font animation helper
+│   └── index.css                 # Palette tokens, typography & global overflow guards
 ```
 
 ---
 
-## ⚡ Setup & Installation
+## Setup & Installation
 
-
-### 1. Prerequisites
-Ensure you have [Node.js](https://nodejs.org/) installed (version `18.x` or higher is recommended).
-You can verify your installation by running:
+### Prerequisites
+Ensure [Node.js](https://nodejs.org/) (`18.x` or newer) and `npm` are installed:
 ```bash
 node --version
 npm --version
 ```
 
-### 2. Steps to Run
-1.  **Clone the Repository:**
-    ```bash
-    git clone https://github.com/gargibhardwaj24/dossier.git
-    cd dossier
-    ```
-2.  **Install Project Dependencies:**
-    ```bash
-    npm install
-    ```
-3.  **Spin Up Local Dev Server:**
-    ```bash
-    npm run dev
-    ```
-    *The app will load at `http://localhost:5173/` by default.*
-
-4.  **Create Optimized Production Bundle:**
-    ```bash
-    npm run build
-    ```
-
----
-
-## 💼 Featured Work Showcase
-
-*   **[humanOS](https://human-os-two.vercel.app/)** — *[GitHub](https://github.com/gargibhardwaj24/humanOS)*
-    An AI personal OS managing focus, habits, and self-growth indices.
-*   **[Procrastinator](https://procrastinator-zeta.vercel.app/)** — *[GitHub](https://github.com/gargibhardwaj24/Procrastinator)*
-    A productivity platform designed to combat procrastination.
-*   **[NanoFactz](https://nanofacts.vercel.app/)** — *[GitHub](https://github.com/gargibhardwaj24/NanoFactz)*
-    A micro-learning app delivering bite-sized facts.
-*   **HushMeet**
-    AI-driven communication converting visual mouth shapes to speech/text outputs.
+### Run Locally
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/devansh8011-oss/SteelCircuits.git
+   cd SteelCircuits
+   ```
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+3. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+   Open `http://localhost:5173/` in your browser.
+4. **Build for production:**
+   ```bash
+   npm run build
+   ```
 
 ---
 
-## 📬 Reach Out
+## Featured Projects
+
+* **[Zap fit](https://dpsi-zap-fit.vercel.app)** — *[GitHub](https://github.com/devansh8011-oss/zap-fit)*
+  AI-powered post-workout nutrition and athletic performance platform engineered to optimize training recovery and meal timing.
+* **[Warehouse Monitoring System](https://warehouse-xi-ten.vercel.app)** — *[GitHub](https://github.com/devansh8011-oss/smart-warehouse-monitoring-system)*
+  Smart IoT cold-storage and logistics telemetry platform tracking live ambient sensors, thermal heatmaps, and real-time anomaly alarms.
+* **[Autonomous AI Lab Monitor](https://ai-lab-monitor.pages.dev)** — *[GitHub](https://github.com/devansh8011-oss/ai-lab-monitor)*
+  Vision-based autonomous agent supervising laboratory experiments, safety protocols, chemical hazard detection, and robotic hardware.
+* **Nexus Delivery Robot** — *[GitHub](https://github.com/devansh8011-oss/Nexus-Delivery-Robot)*
+  Autonomous indoor and last-mile mobile delivery platform built with obstacle avoidance, ultrasonic sensor fusion, fleet telemetry, and cargo dispatch.
+
+---
+
+## Reach Out
 
 <p align="center">
-  <a href="mailto:gargibhardwaj2430@gmail.com">
-    <img src="https://img.shields.io/badge/Email-gargibhardwaj2430%40gmail.com-blue?style=flat-square&logo=gmail&logoColor=white&color=D14836" alt="Email" />
+  <a href="https://steelandstack.com">
+    <img src="https://img.shields.io/badge/Steel_%26_Stack-steelandstack.com-161012?style=flat-square" alt="Steel & Stack" />
   </a>
-  <a href="https://www.linkedin.com/in/gargibhardwaj24">
-    <img src="https://img.shields.io/badge/LinkedIn-gargibhardwaj24-blue?style=flat-square&logo=linkedin&logoColor=white&color=0A66C2" alt="LinkedIn" />
+  <a href="mailto:devansh8011@gmail.com">
+    <img src="https://img.shields.io/badge/Email-devansh8011%40gmail.com-D14836?style=flat-square&logo=gmail&logoColor=white" alt="Email" />
   </a>
-  <a href="https://github.com/gargibhardwaj24">
-    <img src="https://img.shields.io/badge/GitHub-gargibhardwaj24-blue?style=flat-square&logo=github&logoColor=white&color=24292e" alt="GitHub" />
+  <a href="https://github.com/devansh8011-oss">
+    <img src="https://img.shields.io/badge/GitHub-devansh8011--oss-24292e?style=flat-square&logo=github&logoColor=white" alt="GitHub" />
+  </a>
+  <a href="https://www.instagram.com/Devansh999AI">
+    <img src="https://img.shields.io/badge/Instagram-Devansh999AI-E4405F?style=flat-square&logo=instagram&logoColor=white" alt="Instagram" />
+  </a>
+  <a href="https://wa.me/917303177088">
+    <img src="https://img.shields.io/badge/WhatsApp-Chat-25D366?style=flat-square&logo=whatsapp&logoColor=white" alt="WhatsApp" />
   </a>
 </p>
 
 ---
-<p align="center">Made with <3 and Math by Gargi Bhardwaj</p>
+
+<p align="center">Built by Devansh Grover · <a href="https://steelandstack.com">Steel & Stack</a></p>
