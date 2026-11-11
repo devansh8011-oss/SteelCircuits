@@ -6,20 +6,17 @@
   color: #efe9d8;
 }
 
-.fw-heading {
-  margin: 0;
+.fw-heading-wrap {
+  display: flex;
   justify-content: center;
-  flex-wrap: nowrap !important;
-  text-align: center;
-  text-transform: uppercase;
-  font-family: 'Roboto Flex', system-ui, sans-serif;
-  font-weight: 820;
-  font-variation-settings: 'wght' 820, 'wdth' 151;
-  font-size: clamp(32px, 7.2vw, 100px);
-  line-height: 0.95;
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-  cursor: default;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+}
+
+.fw-flap {
+  max-width: 100%;
+  flex-wrap: nowrap;
 }
 
 .fw-projects {
@@ -287,9 +284,8 @@
   .fw-section {
     padding: 10vh 5vw 10vh;
   }
-  .fw-heading {
-    font-size: clamp(20px, 5.4vw, 36px);
-    letter-spacing: -0.02em;
+  .fw-flap {
+    --split-flap-radius: 5px !important;
   }
   .fw-projects {
     gap: 20px;

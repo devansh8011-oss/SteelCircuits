@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useRef, useState } from 'react';
-import BlurText from './BlurText';
+import SplitFlapText from './SplitFlapText';
 import zapfitLogo from './assets/zapfit_logo.png';
 import warehouseImg from './assets/warehouse_monitor.jpg';
 import aiLabImg from './assets/ai_lab_monitor.jpg';
@@ -136,7 +136,26 @@ function Slide({ seed, span, side = 'left', video, stillOffset = 0.5, photo, fit
 
 const FeaturedWorks = forwardRef(function FeaturedWorks(_props, ref) {
   const projectsRef = useRef(null);
+  const headingWrapRef = useRef(null);
+  const [headingInView, setHeadingInView] = useState(prefersReducedMotion);
   const [modal, setModal] = useState(null);
+
+  useEffect(() => {
+    if (headingInView) return;
+    const node = headingWrapRef.current;
+    if (!node) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHeadingInView(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+    io.observe(node);
+    return () => io.disconnect();
+  }, [headingInView]);
 
   // Lock scroll + close on Escape while the fullscreen video is open.
   useEffect(() => {
@@ -177,19 +196,26 @@ const FeaturedWorks = forwardRef(function FeaturedWorks(_props, ref) {
 
   return (
     <section ref={ref} className="fw-section" id="projects" aria-label="Featured Works">
-      <BlurText
-        text="Featured Works"
-        effect="blur"
-        animateBy="words"
-        direction="top"
-        staggerFrom="start"
-        trigger="view"
-        delay={200}
-        stepDuration={0.35}
-        blur={10}
-        distance={50}
-        className="fw-heading"
-      />
+      <div ref={headingWrapRef} className="fw-heading-wrap">
+        <SplitFlapText
+          text={headingInView ? 'FEATURED WORKS' : ''}
+          padTo={14}
+          align="center"
+          intro={false}
+          tileStyle="board"
+          tileColor="#161012"
+          textColor="#efe9d8"
+          glare={0.25}
+          depth={0.65}
+          flipDuration={0.09}
+          stagger={0.045}
+          flipsPerChar={8}
+          tileRadius={8}
+          gap="clamp(3px, 0.5vw, 6px)"
+          fontSize="clamp(19px, 5vw, 72px)"
+          className="fw-flap"
+        />
+      </div>
 
       <div className="fw-projects" ref={projectsRef}>
         {/* 1 big slide: Zap fit */}
