@@ -14,7 +14,7 @@ export const DEFAULTS = {
   inViewThreshold: 0.6,
 };
 
-const NBSP = ' ';
+const NBSP = '\u00A0';
 
 const prefersReducedMotion =
   typeof window !== 'undefined' &&

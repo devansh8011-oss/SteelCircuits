@@ -356,22 +356,24 @@
 }
 
 /* hover one item → blur the rest (links + contact), like Roles */
-.menu-nav:hover .menu-link,
-.menu-nav:focus-within .menu-link {
-  opacity: 0.35;
-  filter: blur(4px);
-}
-.menu-nav .menu-link:hover,
-.menu-nav .menu-link:focus-visible {
-  opacity: 1;
-  filter: blur(0) drop-shadow(0 6px 30px rgba(0, 0, 0, 0.25));
-  transform: scale(1.04);
-}
-.menu-overlay:has(.menu-nav:hover) .menu-contact,
-.menu-overlay:has(.menu-nav:focus-within) .menu-contact {
-  opacity: 0.4;
-  filter: blur(3px);
-  transition-delay: 0s;
+@media (hover: hover) and (pointer: fine) {
+  .menu-nav:hover .menu-link,
+  .menu-nav:focus-within .menu-link {
+    opacity: 0.35;
+    filter: blur(4px);
+  }
+  .menu-nav .menu-link:hover,
+  .menu-nav .menu-link:focus-visible {
+    opacity: 1;
+    filter: blur(0) drop-shadow(0 6px 30px rgba(0, 0, 0, 0.25));
+    transform: scale(1.04);
+  }
+  .menu-overlay:has(.menu-nav:hover) .menu-contact,
+  .menu-overlay:has(.menu-nav:focus-within) .menu-contact {
+    opacity: 0.4;
+    filter: blur(3px);
+    transition-delay: 0s;
+  }
 }
 
 .menu-contact {
@@ -427,11 +429,57 @@
 
 /* ---------- mobile ---------- */
 @media (max-width: 720px) {
-  .site-nav { padding: 20px 18px; }
+  .site-nav {
+    padding: max(14px, env(safe-area-inset-top)) 16px 14px;
+    font-size: 13px;
+  }
+  .nav-btn {
+    min-height: 44px;
+    padding: 6px 2px;
+    gap: 7px;
+  }
   .nav-logo { font-size: 18px; }
+  .hero {
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 0 5vw;
+  }
   .hero-since { top: auto; bottom: 110px; transform: none; }
-  .hero-headline { font-size: clamp(40px, 11vw, 80px); }
+  .hero-headline {
+    font-size: clamp(30px, 9.2vw, 60px);
+    line-height: 1.04;
+  }
+  .hero-vid-btn { border-radius: 5px; }
+  .hero-scroll-cue { bottom: max(20px, env(safe-area-inset-bottom)); }
   .hero-lang { font-size: 11px; }
-  .menu-overlay { padding: 12vh 8vw; }
-  .menu-close { top: 20px; right: 18px; }
+  .hero-modal video {
+    width: 94vw;
+    max-height: 80svh;
+  }
+  .hero-modal-close {
+    top: max(16px, env(safe-area-inset-top));
+    right: 16px;
+  }
+  .menu-overlay { padding: 10vh 6vw; }
+  .menu-close {
+    top: max(14px, env(safe-area-inset-top));
+    right: 16px;
+    min-height: 44px;
+    padding: 8px;
+  }
+  .menu-link {
+    font-size: clamp(44px, 13vw, 84px);
+    line-height: 1.1;
+    padding: 4px 0;
+  }
+  .menu-contact { margin-top: 36px; }
+  .menu-contact-email {
+    font-size: clamp(22px, 6vw, 34px);
+    word-break: break-word;
+  }
+}
+
+@media (max-width: 390px) {
+  .nav-logo { font-size: 16px; }
+  .site-nav { font-size: 12px; }
 }

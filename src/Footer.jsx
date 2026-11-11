@@ -65,7 +65,8 @@ export default function Footer() {
             const el = wordmarkRef.current;
             const fs = parseFloat(getComputedStyle(el).fontSize);
             const ascent = fs * ascentRatio(el.textContent);
-            return ascent ? (window.innerHeight * MAX_FILL) / ascent : 1;
+            const maxFill = window.innerWidth <= 720 ? 0.28 : MAX_FILL;
+            return ascent ? (window.innerHeight * maxFill) / ascent : 1;
           },
           ease: "none",
           scrollTrigger: {
@@ -73,6 +74,7 @@ export default function Footer() {
             start: "top bottom",
             end: "bottom bottom",
             scrub: true,
+            refreshPriority: -1,
             invalidateOnRefresh: true,
           },
         }
@@ -94,7 +96,7 @@ export default function Footer() {
     <section className="footer-reveal" ref={sectionRef} aria-label="End">
       <div className="footer-panel">
         <h2 ref={wordmarkRef} className="footer-wordmark">
-          BHARDWAJ
+          DEVANSH GROVER
         </h2>
       </div>
     </section>

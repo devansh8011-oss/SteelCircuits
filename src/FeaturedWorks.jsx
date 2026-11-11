@@ -1,57 +1,48 @@
 import { forwardRef, useEffect, useRef, useState } from 'react';
 import VariableFontText from './VariableFontText';
-import cursorVid from './assets/creative.mp4';
-import hushMeet from './assets/hushMeet.mp4';
-import nanofacts from './assets/nanoFactz.png';
-import procrastinator from './assets/procrastinator.png';
+import zapfitLogo from './assets/zapfit_logo.png';
+import warehouseImg from './assets/warehouse_monitor.jpg';
+import aiLabImg from './assets/ai_lab_monitor.jpg';
+import nexusImg from './assets/nexus_delivery_robot.jpg';
 import './FeaturedWorks.css';
 
 const prefersReducedMotion =
   typeof window !== 'undefined' &&
   window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
-// Placeholder images via picsum.photos (swap these out for real project shots).
-// `span` controls layout: 'big' = full-width slide, 'half' = sits in a 2-up row.
+// Devansh Grover's Featured Projects
 const PROJECTS = [
   {
-    seed: 'aurora',
     span: 'big',
-    video: cursorVid,
-    stillOffset: 1,
-    name: 'humanOS',
-    description: 'An AI-powered personal OS that helps people organize their goals, habits, focus, and personal growth in one unified experience.',
-    link: 'https://human-os-two.vercel.app/',
-    repo: 'https://github.com/gargibhardwaj24/humanOS',
-  },
-  {
-    seed: 'procrastinator',
-    span: 'half',
-    photo: procrastinator,
+    photo: zapfitLogo,
     fit: 'contain',
-    name: 'Procrastinator',
-    description: 'Procrastinator is an app that helps people beat procrastination, stay focused, and get things done.',
-    link: 'https://procrastinator-zeta.vercel.app/',
-    repo: 'https://github.com/gargibhardwaj24/Procrastinator',
+    name: 'Zap fit',
+    description: 'AI-powered post-workout nutrition & intelligent athletic performance platform designed to optimize personal training, recovery, and meal timing.',
+    link: 'https://dpsi-zap-fit.vercel.app',
+    repo: 'https://github.com/devansh8011-oss/zap-fit',
   },
   {
-    seed: 'nanofacts',
     span: 'half',
-    photo: nanofacts,
-    name: 'NanoFactz',
-    description: 'NanoFacts is a micro-learning platform that delivers short, engaging, and easy-to-digest facts, helping users learn something new in just a few seconds.',
-    link: 'https://nanofacts.vercel.app/',
-    repo: 'https://github.com/gargibhardwaj24/NanoFactz',
+    photo: warehouseImg,
+    name: 'Warehouse Monitoring System',
+    description: 'Smart IoT cold-storage and logistics telemetry system tracking live ambient sensors, thermal heatmaps, and automatic anomaly alarms in real time.',
+    link: 'https://warehouse-xi-ten.vercel.app',
+    repo: 'https://github.com/devansh8011-oss/smart-warehouse-monitoring-system',
   },
   {
-    seed: 'verde',
-    span: 'big',
-    video: hushMeet,
-    name: 'HushMeet',
-    description: 'HushMeet is an AI-powered communication tool that converts lip movements into real-time text and voice, making conversations, meetings, and communication accessible even in noisy environments',
-    // link: '#',
-    // repo: '#',
+    span: 'half',
+    photo: aiLabImg,
+    name: 'Autonomous AI Lab Monitor',
+    description: 'Vision-based autonomous agent continuously supervising laboratory experiments, safety protocols, chemical hazard detection, and robotic hardware.',
+    repo: 'https://github.com/devansh8011-oss/ai-lab-monitor',
   },
-  { seed: 'ember', span: 'big' },
+  {
+    span: 'big',
+    photo: nexusImg,
+    name: 'Nexus Delivery Robot',
+    description: 'Autonomous indoor and last-mile mobile delivery platform engineered with obstacle avoidance, ultrasonic sensor fusion, fleet telemetry, and cargo dispatch.',
+    repo: 'https://github.com/devansh8011-oss/Nexus-Delivery-Robot',
+  },
 ];
 
 function Slide({ seed, span, side = 'left', video, stillOffset = 0.5, photo, fit, name, description, link, repo, onExpand }) {
@@ -188,18 +179,17 @@ const FeaturedWorks = forwardRef(function FeaturedWorks(_props, ref) {
       <VariableFontText as="h2" className="fw-heading" text="Featured Works" />
 
       <div className="fw-projects" ref={projectsRef}>
-        {/* 1 big slide */}
+        {/* 1 big slide: Zap fit */}
         <Slide {...PROJECTS[0]} side="left" onExpand={setModal} />
 
-        {/* 2 slides adjacent, below it */}
+        {/* 2 slides adjacent: Warehouse Monitor + Autonomous AI Lab */}
         <div className="proj-row">
           <Slide {...PROJECTS[1]} side="left" onExpand={setModal} />
           <Slide {...PROJECTS[2]} side="right" onExpand={setModal} />
         </div>
 
-        {/* then another 2 big slides */}
-        <Slide {...PROJECTS[3]} side="right" onExpand={setModal} />
-        {/* <Slide {...PROJECTS[4]} /> */}
+        {/* 1 big slide: Nexus Delivery Robot */}
+        <Slide {...PROJECTS[3]} side="left" onExpand={setModal} />
       </div>
 
       {modal && (

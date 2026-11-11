@@ -3,7 +3,6 @@ import heroVdo from './assets/videos/hero_vdo.mp4';
 import heroBg from './assets/hero_bg.png';
 import './DiveIntro.css';
 
-
 export default function DiveIntro() {
   const sectionRef = useRef(null);
   const textGroupRef = useRef(null);
@@ -16,14 +15,27 @@ export default function DiveIntro() {
       const t = textRef.current;
       if (!t || typeof t.getExtentOfChar !== 'function') return;
       try {
+        const vw = window.innerWidth || 1600;
+        const vh = window.innerHeight || 900;
+        const aspect = vw / vh;
+        // SVG viewBox is 1600x900 with preserveAspectRatio="xMidYMid slice".
+        // On portrait viewports, horizontal SVG units visible = 900 * aspect.
+        const visibleW = aspect >= 1600 / 900 ? 1600 : 900 * aspect;
+        const fontSize = Math.max(46, Math.min(140, Math.round(140 * (visibleW * 0.72) / 680)));
+        t.setAttribute('font-size', String(fontSize));
+
         const e = t.getExtentOfChar(4);
         setFocal({ x: e.x + e.width * 0.11, y: e.y + e.height / 2 });
       } catch {
       }
     };
     const raf = requestAnimationFrame(measure);
+    window.addEventListener('resize', measure);
     if (document.fonts?.ready) document.fonts.ready.then(measure);
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', measure);
+    };
   }, []);
 
   useEffect(() => {
@@ -125,34 +137,11 @@ export default function DiveIntro() {
               </g>
             </mask>
           </defs>
-
-          {/* {DEBUG && (
-            <g style={{ pointerEvents: 'none' }}>
-              <circle
-                cx={focal.x}
-                cy={focal.y}
-                r="6"
-                fill="red"
-                stroke="white"
-                strokeWidth="2"
-              />
-              <rect x="10" y="14" width="540" height="34" fill="rgba(0,0,0,0.6)" />
-              <text
-                x="20"
-                y="38"
-                fill="lime"
-                fontFamily="monospace"
-                fontSize="18"
-              >
-                focal: {focal.x}, {focal.y}  —  arrows nudge, Shift=fine, L=log
-              </text>
-            </g>
-          )} */}
         </svg>
 
         <div className="dive-journey-content">
           <h2 className="dive-journey-title">
-            <span className="dive-journey-title-span">through</span>  THIS<br />JOURNEY WITH ME
+            <span className="dive-journey-title-span">through</span> THIS<br />JOURNEY WITH ME
           </h2>
         </div>
       </div>

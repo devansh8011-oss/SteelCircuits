@@ -26,6 +26,12 @@
   overflow: visible;
 }
 
+@media (max-width: 720px) {
+  .intro-sig svg {
+    width: clamp(220px, 74vw, 320px);
+  }
+}
+
 .intro-sig svg path {
   stroke: #d8b65a !important;
   fill: none !important;

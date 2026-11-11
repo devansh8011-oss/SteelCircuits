@@ -186,5 +186,8 @@
 }
 
 @media (max-width: 720px) {
+  .reveal-img { object-position: 54% 35%; }
+  .reveal-scrim-top { height: 22vh; }
+  .reveal-scrim-bottom { height: 22vh; }
   .reveal-caption { font-size: 11px; left: 14px; bottom: 12px; }
 }

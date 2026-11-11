@@ -33,9 +33,9 @@
   stroke-linejoin: round;
 }
 
-/* Hide on small screens (JS also skips building the ScrollTrigger there). */
-@media (max-width: 600px) {
-  .scroll-curve {
-    display: none;
+/* Keep visible on mobile with responsive stroke sizing in JS */
+@media (max-width: 720px) {
+  .scroll-curve-path {
+    stroke-linecap: butt;
   }
 }

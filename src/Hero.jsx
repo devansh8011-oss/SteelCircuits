@@ -131,10 +131,6 @@ export default function Hero() {
         return;
       }
 
-      // The contact section is pinned and its panel only fades in partway
-      // through a +=130% scrub. Scrolling to the panel's DOM position lands
-      // on it while still invisible — instead aim near the end of the pin so
-      // the reveal has played and the panel is fully visible.
       if (id === 'contact') {
         const wrap = document.querySelector('.contact-blob-wrap');
         const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -172,24 +168,19 @@ export default function Hero() {
         </button>
 
         <a href="#top" className="nav-logo">
-          <span className="logo-from">Gargi</span>
-          <span className="logo-another">Bhardwaj</span>
+          <span className="logo-from">Devansh</span>
+          <span className="logo-another">Grover</span>
         </a>
 
         <div className="nav-right">
-          <a href="#Contact" className="nav-btn nav-chat">
+          <a
+            href="#contact"
+            className="nav-btn nav-chat"
+            onClick={handleMenuNav('#contact')}
+          >
             <span>Let&rsquo;s chat</span>
             <span className="nav-arrow" aria-hidden="true">&rarr;</span>
           </a>
-          {/* <div className="hero-lang mt-4" aria-label="Disciplines">
-            <span>UI</span>
-            <span className="hero-lang-sep">|</span>
-            <span>DEV</span>
-            <span className="hero-lang-sep">|</span>
-            <span>UX</span>
-            <span className="hero-lang-sep">|</span>
-            <span>AI</span>
-          </div> */}
         </div>
       </header>
 
@@ -284,11 +275,11 @@ export default function Hero() {
             Reach out to me
           </a>
           <a
-            href="mailto:gargibhardwaj2430@gmail.com"
+            href="mailto:devansh8011@gmail.com"
             className="menu-contact-email"
             tabIndex={menuOpen ? 0 : -1}
           >
-            gargibhardwaj2430@gmail.com
+            devansh8011@gmail.com
           </a>
         </div>
       </div>

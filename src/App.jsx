@@ -68,8 +68,6 @@ export default function App() {
     lenisRef.current = lenis;
     window.__lenis = lenis;
     lenis.scrollTo(0, { immediate: true });
-    // Drive ScrollTrigger off Lenis' interpolated position so scrub-based
-    // reveals (e.g. the footer wordmark) track the smooth scroll exactly.
     lenis.on('scroll', ScrollTrigger.update);
     let id = requestAnimationFrame(function raf(time) {
       lenis.raf(time);
@@ -107,12 +105,6 @@ export default function App() {
         <FeaturedWorks />
         <Contact />
       </main>
-      {/* Footer lives OUTSIDE .site-main on purpose: .site-main carries the
-          intro `page-rise` transform, and any transformed ancestor silently
-          breaks `position: sticky` in its descendants. As a sibling of
-          .site-main it has no transformed ancestor, so the footer's sticky
-          pin resolves against the document scroll and stays glued to the
-          bottom of the viewport. */}
       <Footer />
     </>
   );

@@ -54,10 +54,14 @@
 
 body {
   margin: 0;
+  overflow-x: clip;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Hide the scrollbar (scrolling still works) across browsers */
 html {
+  overflow-x: clip;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* old Edge / IE */
 }

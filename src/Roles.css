@@ -1,5 +1,6 @@
 .roles-section {
   min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,52 +40,67 @@
   letter-spacing: -0.02em;
   color: #efe9d8;
   cursor: pointer;
-  outline: none; 
+  outline: none;
   opacity: 0.78;
   transition: filter 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
 }
- 
-.roles-list:hover .roles-item,
-.roles-list:focus-within .roles-item {
-  opacity: 0.32;
-  filter: blur(4px);
-}
-.roles-section:has(.roles-list:hover) .roles-eyebrow,
-.roles-section:has(.roles-list:focus-within) .roles-eyebrow {
-  opacity: 0.25;
-  filter: blur(3px);
+
+.roles-link {
+  display: inline-block;
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: rgba(239, 233, 216, 0.35);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.14em;
+  outline: none;
+  transition: text-decoration-color 0.3s ease;
 }
 
-.roles-list .roles-item:hover,
-.roles-list .roles-item:focus-visible {
-  opacity: 1;
-  filter: blur(0) drop-shadow(0 6px 30px rgba(0, 0, 0, 0.45));
-  transform: scale(1.04);
+.roles-link:hover,
+.roles-link:focus-visible {
+  text-decoration-color: #efe9d8;
 }
 
-.roles-cursor-vid {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 440px;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 12px;
-  pointer-events: none;
-  z-index: 50;
-  opacity: 0; 
-  transform: translate(-50%, -50%);
-  scale: 0.8;
-  transition: opacity 0.22s ease, scale 0.22s ease;
-  will-change: transform;
-}
-.roles-cursor-vid.is-visible {
-  opacity: 1;
-  scale: 1;
+@media (hover: hover) and (pointer: fine) {
+  .roles-list:hover .roles-item,
+  .roles-list:focus-within .roles-item {
+    opacity: 0.32;
+    filter: blur(4px);
+  }
+  .roles-section:has(.roles-list:hover) .roles-eyebrow,
+  .roles-section:has(.roles-list:focus-within) .roles-eyebrow {
+    opacity: 0.25;
+    filter: blur(3px);
+  }
+
+  .roles-list .roles-item:hover,
+  .roles-list .roles-item:focus-visible,
+  .roles-list .roles-item:has(.roles-link:focus-visible) {
+    opacity: 1;
+    filter: blur(0) drop-shadow(0 6px 30px rgba(0, 0, 0, 0.45));
+    transform: scale(1.04);
+  }
 }
 
 @media (max-width: 720px) {
-  .roles-item { font-size: clamp(32px, 9vw, 64px); }
+  .roles-section {
+    padding: 12vh 5vw;
+  }
+  .roles-eyebrow {
+    font-size: 12px;
+    margin-bottom: 30px;
+  }
+  .roles-list {
+    gap: 18px;
+  }
+  .roles-item {
+    font-size: clamp(26px, 7.2vw, 48px);
+    line-height: 1.14;
+    opacity: 0.92;
+  }
+  .roles-link {
+    padding: 6px 4px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

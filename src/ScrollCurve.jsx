@@ -7,22 +7,8 @@ import './ScrollCurve.css';
 // keeps this component self-contained.
 gsap.registerPlugin(ScrollTrigger);
 
-// Below this width the curve is hidden (layout reflows too much on phones to be
-// worth drawing). CSS hides the <svg>; JS skips building the ScrollTrigger.
-const HIDE_BELOW = 600;
-
-// Curve shape, expressed as cubic-Bézier segments whose points are OFFSETS from
-// the base of the "I", as fractions of the region's width (x, + = right) and
-// height (y, + = down). Each segment = two control points + an endpoint. Edit
-// these freely to reshape the ribbon; the geometry comes entirely from here, so
-// there is no CSS scaleY anywhere. Starts as a gentle S: drop, bow left, swoop
-// right into the roles section, soft wave, then exit off the bottom-right.
-const SEGMENTS = [
-  { c1: [0.0, 0.1], c2: [-0.1, 0.16], end: [-0.08, 0.26] }, // drop, bow left
-  { c1: [-0.06, 0.36], c2: [0.12, 0.34], end: [0.12, 0.47] }, // swoop right into roles
-  { c1: [0.12, 0.59], c2: [-0.04, 0.64], end: [0.05, 0.76] }, // soft wave
-  { c1: [0.13, 0.88], c2: [0.34, 0.9], end: [0.58, 1.05] }, // exit off bottom-right
-];
+// Below this width we use the compact mobile side-channel curve geometry.
+const MOBILE_BREAKPOINT = 720;
 
 // The hero headline lifts upward on scroll (Hero.css: --hero-blur drives a
 // translateY of up to --hero-lift-max = 55vh). getBoundingClientRect() sees
@@ -52,6 +38,75 @@ function currentBlur() {
   return parseFloat(document.documentElement.style.getPropertyValue('--hero-blur')) || 0;
 }
 
+// Compute responsive cubic-Bézier points routed cleanly into the right-side
+// whitespace so the curve extends from "I" along the side without overlapping
+// the hero headline ("NOT JUST / WEBSITES — I / BUILD ...") or the Roles list.
+function computeSegments({ sx0, sy0, W, H, stem, headlineBottomY, headlineRightX, rolesTopY, rolesBottomY, rolesRightX }) {
+  const isMobile = W <= MOBILE_BREAKPOINT;
+  const edgePad = isMobile ? Math.max(12, stem * 1.4) : Math.max(32, W * 0.035);
+  const maxRightX = W - edgePad;
+
+  // 1. Clear Hero cleanly to the right side of the headline (never cutting left across BUILD / word)
+  const heroClearX = isMobile
+    ? Math.min(maxRightX, Math.max(sx0 + 18, headlineRightX + 18))
+    : Math.min(maxRightX, Math.max(sx0 + W * 0.08, headlineRightX + W * 0.035));
+
+  const belowHeroY = Math.max(sy0 + H * 0.14, headlineBottomY + H * 0.03);
+  const gapMidY = (belowHeroY + rolesTopY) * 0.5;
+
+  // 2. Clear Roles cleanly in the open right gutter
+  const rolesClearX = isMobile
+    ? maxRightX
+    : Math.min(maxRightX, Math.max(heroClearX + W * 0.03, rolesRightX + W * 0.04));
+
+  const rolesMidY = (rolesTopY + rolesBottomY) * 0.5;
+  const belowRolesY = Math.min(H * 0.9, Math.max(rolesBottomY + H * 0.04, rolesMidY + H * 0.15));
+
+  // Gentle mid-gap wave x-coordinate (stays right of center so it adds rhythm in the gap)
+  const gapWaveX = isMobile
+    ? Math.max(sx0 * 0.72, W * 0.62)
+    : Math.max(rolesClearX - W * 0.09, heroClearX - W * 0.03);
+
+  return [
+    // Segment 1: drop briefly straight from "I" stem, then sweep outward right past Hero
+    {
+      c1x: sx0,
+      c1y: sy0 + (belowHeroY - sy0) * 0.42,
+      c2x: heroClearX,
+      c2y: sy0 + (belowHeroY - sy0) * 0.52,
+      ex: heroClearX,
+      ey: belowHeroY,
+    },
+    // Segment 2: expressive S-curve inside the open vertical gap between Hero & Roles
+    {
+      c1x: heroClearX,
+      c1y: belowHeroY + (gapMidY - belowHeroY) * 0.65,
+      c2x: gapWaveX,
+      c2y: gapMidY - (rolesTopY - gapMidY) * 0.2,
+      ex: gapWaveX,
+      ey: Math.min(rolesTopY - H * 0.03, gapMidY + H * 0.03),
+    },
+    // Segment 3: glide out to the right margin alongside Roles without crossing Roles text
+    {
+      c1x: gapWaveX,
+      c1y: rolesTopY + (rolesMidY - rolesTopY) * 0.1,
+      c2x: rolesClearX,
+      c2y: rolesTopY + (rolesMidY - rolesTopY) * 0.45,
+      ex: rolesClearX,
+      ey: rolesMidY,
+    },
+    // Segment 4: continue down clear side margin below Roles, then exit off bottom-right
+    {
+      c1x: rolesClearX,
+      c1y: belowRolesY,
+      c2x: isMobile ? W * 0.74 : rolesClearX - W * 0.04,
+      c2y: H * 0.94,
+      ex: W * 1.06,
+      ey: H * 1.05,
+    },
+  ];
+}
+
 // Assemble the path `d`: an explicit start point + the precomputed downstream
 // bézier points. Only the start moves per frame; the rest stays anchored.
 function buildD(sx, sy, pts) {
@@ -63,8 +118,8 @@ function buildD(sx, sy, pts) {
 }
 
 /**
- * Draws an SVG curve from the base of the hero's standalone "I" down into the
- * roles section, scrubbed by scroll via GSAP ScrollTrigger (smoothed by the
+ * Draws an SVG curve from the base of the hero's standalone "I" down along the side
+ * into the roles section, scrubbed by scroll via GSAP ScrollTrigger (smoothed by the
  * Lenis instance App already drives into ScrollTrigger.update).
  *
  * `regionRef` must point at a position:relative wrapper around BOTH
@@ -95,7 +150,7 @@ export default function ScrollCurve({ regionRef }) {
       frame = null;
 
       const anchor = region.querySelector('.curve-anchor');
-      if (window.innerWidth < HIDE_BELOW || !anchor) {
+      if (!anchor) {
         svg.style.display = 'none';
         return;
       }
@@ -122,19 +177,32 @@ export default function ScrollCurve({ regionRef }) {
 
       // Match the stroke to the "I"'s stem so the line looks like the letter
       // extending. Fall back to the CSS width if metrics are unavailable.
-      const stem = stemWidth(cs.fontWeight, fs, cs.fontFamily);
-      if (stem > 0) path.style.strokeWidth = `${stem}`;
+      const rawStem = stemWidth(cs.fontWeight, fs, cs.fontFamily);
+      const stem = rawStem > 0 ? rawStem : (W <= MOBILE_BREAKPOINT ? 6 : 12);
+      path.style.strokeWidth = `${stem}`;
 
-      // Downstream bézier points, anchored to the REST start so the lower curve
-      // (into the roles section) stays put while only the start tracks the "I".
-      const pts = SEGMENTS.map((s) => ({
-        c1x: sx0 + s.c1[0] * W,
-        c1y: sy0 + s.c1[1] * H,
-        c2x: sx0 + s.c2[0] * W,
-        c2y: sy0 + s.c2[1] * H,
-        ex: sx0 + s.end[0] * W,
-        ey: sy0 + s.end[1] * H,
-      }));
+      // Measure Hero headline and Roles list resting bounds for collision-free routing
+      const headlineEl = region.querySelector('.hero-headline');
+      const rolesListEl = region.querySelector('.roles-list');
+      const hRect = headlineEl ? headlineEl.getBoundingClientRect() : a;
+      const rRect = rolesListEl ? rolesListEl.getBoundingClientRect() : {
+        top: regionRect.top + H * 0.65,
+        bottom: regionRect.top + H * 0.85,
+        right: regionRect.left + W * 0.75,
+      };
+
+      const pts = computeSegments({
+        sx0,
+        sy0,
+        W,
+        H,
+        stem,
+        headlineBottomY: hRect.bottom - regionRect.top + lift0,
+        headlineRightX: hRect.right - regionRect.left,
+        rolesTopY: rRect.top - regionRect.top,
+        rolesBottomY: rRect.bottom - regionRect.top,
+        rolesRightX: rRect.right - regionRect.left,
+      });
       frame = { sx0, sy0, pts };
       lastLift = -1; // force tick() to redraw with the new geometry
 
@@ -157,7 +225,7 @@ export default function ScrollCurve({ regionRef }) {
             // from the top of the region (which you scroll past well before the
             // "I" is in view — that's why it looked already-drawn).
             trigger: anchor,
-            start: 'top 18%', // begins once the "I" has scrolled up near the top
+            start: 'top 38%', // begins smoothly as the "I" lifts toward the upper third
             endTrigger: roles || region,
             end: 'bottom center', // finishes as the roles section passes center
             scrub: true,

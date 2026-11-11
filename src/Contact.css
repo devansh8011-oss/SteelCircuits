@@ -6,6 +6,7 @@
   position: relative;
   width: 100%;
   height: 100vh;
+  height: 100svh;
   overflow: hidden;
 }
 
@@ -154,5 +155,54 @@
   .cr-email::after,
   .cr-socials a {
     transition: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .contact-panel {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: clamp(28px, 5vh, 42px);
+    padding: 10vh 6vw;
+    text-align: left;
+  }
+
+  .cr-heading {
+    font-size: clamp(36px, 11.2vw, 56px);
+    line-height: 1.04;
+    margin: 0;
+  }
+
+  .cr-right {
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .cr-email {
+    font-size: clamp(21px, 6vw, 28px);
+    word-break: break-word;
+    padding: 6px 0 8px;
+  }
+
+  .cr-socials {
+    justify-content: flex-start;
+    gap: 14px;
+  }
+
+  .cr-socials a {
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    opacity: 0.9;
+  }
+
+  .cr-socials svg {
+    width: 20px;
+    height: 20px;
   }
 }
