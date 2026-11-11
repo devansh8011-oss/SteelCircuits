@@ -8,9 +8,14 @@
 
 .fw-heading {
   margin: 0;
+  justify-content: center;
+  flex-wrap: nowrap !important;
   text-align: center;
   text-transform: uppercase;
-  font-size: clamp(36px, 7.5vw, 100px);
+  font-family: 'Roboto Flex', system-ui, sans-serif;
+  font-weight: 820;
+  font-variation-settings: 'wght' 820, 'wdth' 151;
+  font-size: clamp(32px, 7.2vw, 100px);
   line-height: 0.95;
   letter-spacing: -0.01em;
   white-space: nowrap;

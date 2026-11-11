@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useRef, useState } from 'react';
-import VariableFontText from './VariableFontText';
+import BlurText from './BlurText';
 import zapfitLogo from './assets/zapfit_logo.png';
 import warehouseImg from './assets/warehouse_monitor.jpg';
 import aiLabImg from './assets/ai_lab_monitor.jpg';
@@ -34,6 +34,7 @@ const PROJECTS = [
     photo: aiLabImg,
     name: 'Autonomous AI Lab Monitor',
     description: 'Vision-based autonomous agent continuously supervising laboratory experiments, safety protocols, chemical hazard detection, and robotic hardware.',
+    link: 'https://ai-lab-monitor.pages.dev',
     repo: 'https://github.com/devansh8011-oss/ai-lab-monitor',
   },
   {
@@ -176,7 +177,19 @@ const FeaturedWorks = forwardRef(function FeaturedWorks(_props, ref) {
 
   return (
     <section ref={ref} className="fw-section" id="projects" aria-label="Featured Works">
-      <VariableFontText as="h2" className="fw-heading" text="Featured Works" />
+      <BlurText
+        text="Featured Works"
+        effect="blur"
+        animateBy="words"
+        direction="top"
+        staggerFrom="start"
+        trigger="view"
+        delay={200}
+        stepDuration={0.35}
+        blur={10}
+        distance={50}
+        className="fw-heading"
+      />
 
       <div className="fw-projects" ref={projectsRef}>
         {/* 1 big slide: Zap fit */}
